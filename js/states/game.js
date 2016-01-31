@@ -304,13 +304,7 @@ GameState.prototype = {
 
 	render: function(){
 		this.game.debug.text(this.score, 10, 20, "#000");
-		var kp = this.rhythmEngine.getPair();
-		if (kp) {
-			var t = String.fromCharCode(kp[0].keyCode) + " " + String.fromCharCode(kp[1].keyCode);
-			this.game.debug.text(t, 10, 40, "#000");
-		}
-		this.game.debug.text(this.numKills, 10 , 60, "#000");
-
+		this.game.debug.text(this.numKills, 10 , 40, "#000");
 		/*
 		this.game.debug.geom(this.player.getBounds());
 		for (var i = 0; i < this.runners.length; i++) {
