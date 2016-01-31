@@ -33,6 +33,8 @@ MainMenu.prototype = {
 		var h = this.scale.height;
 		this.add.tileSprite(0, 0, w, h, "menu-bg");
 
+		var key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		key.onDown.add(this.actionOnClick, this);
 		// Play!
 		game.add.button(40, game.world.centerY - 40, 'button', this.actionOnClick, this, 1, 0, 1);
 	},

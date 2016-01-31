@@ -28,7 +28,8 @@ Ending.prototype = {
 			this.song.play();
 		// else
 		// 	this.badSong.play(0.5)
-
+		var key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		key.onDown.add(this.actionOnClick, this);
 		// Play!
 		game.add.button(w - 250, h - 170, "retry_button", this.actionOnClick, this, 1, 0, 1);
 	},
