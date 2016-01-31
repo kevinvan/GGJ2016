@@ -6,6 +6,7 @@ var Runner = function(game) {
 	this.hitPlayer = false;
 	this.wasClose = false;
 	this.destroyed = false;
+	this.punched = false;
 	this.invisBox = new Phaser.Sprite(game, this.startX, -game.cache.getImage("runner").height / 2, "");
 };
 
@@ -28,8 +29,10 @@ Runner.prototype.addToGame = function(dispRoot) {
 }
 Runner.prototype.update = function(runSpeed, player){
 	var game = this.game;
-	if (!this.destroyed && !this.hitPlayer) {
-		this.body.velocity.x = runSpeed + 50;
+	if (!this.hitPlayer) {
+		if (!this.punched) {
+			this.body.velocity.x = runSpeed + 50;
+		}
 		//Readjust buffer based on speed.
 		var buffer = 40 + Math.min(40, Math.floor(runSpeed / 15));
 		this.invisBox.body.setSize(this.width+buffer, this.height, 0, 0);
@@ -38,10 +41,14 @@ Runner.prototype.update = function(runSpeed, player){
 		this.invisBox.body.y = this.body.y;
 		if (!this.closeToPlayer) {
 			game.physics.arcade.overlap(this.invisBox, player, this.gotClose, null, this);
-		} else {
+		} else if (!this.punched) {
 			game.physics.arcade.overlap(this, player, function(){
 				this.body.velocity.x = 0;
 				this.hitPlayer = true;
+			}, null, this);
+		} else {
+			game.physics.arcade.collide(this, player, function(){
+				this.body.velocity.x = -100;
 			}, null, this);
 		}
 	}
@@ -64,14 +71,16 @@ Runner.prototype.isHit = function() {
 }
 
 Runner.prototype.evade = function() {
-		this.kill();
-		this.invisBox.kill();
+		//this.kill();
+		//this.invisBox.kill();
 		this.destroyed = true;
+		this.punched = true;
 }
 
 Runner.prototype.revive = function() {
 	var game = this.game;
 	this.closeToPlayer = false;
+	this.punched = false;
 	this.hitPlayer = false;
 	this.wasClose = false;
 	this.destroyed = false;
