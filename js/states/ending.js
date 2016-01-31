@@ -39,7 +39,7 @@ Ending.prototype = {
 	update: function(){
 	},
 	render: function(){
-		this.game.debug.text(this.params.score, 10, 20, "#000");
+		this.game.debug.text("Score: " + this.params.score, 10, 50, "#000", '50px Arial');
 	},
 	shutdown: function(){
 	}
